@@ -100,6 +100,7 @@ class Demand(object):
 #        t = util.time_stamp(t)
         df = self.geomap_to_dispatch_geography(agg_load) if geomap_to_dispatch_geography else agg_load
 #        t = util.time_stamp(t)
+        df *= self.energy_demand.xs([cfg.electricity_energy_type_id, year], level=['final_energy', 'year']).sum().sum() / df.xs(2, level='timeshift_type').sum().sum()
         return df
 
     def electricity_energy_slice(self, year, subsector_slice):
